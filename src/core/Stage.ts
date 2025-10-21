@@ -99,6 +99,9 @@ export class Stage extends EventEmitter {
    * Plays an audio file
    */
   async play(url: string): Promise<void> {
+    // Resume audio context if needed
+    await this.resume();
+    
     // Stop current input
     this.input.stop();
     this.input.disconnect();
@@ -122,6 +125,9 @@ export class Stage extends EventEmitter {
    * Plays an uploaded file
    */
   async playFile(file: File): Promise<void> {
+    // Resume audio context if needed
+    await this.resume();
+    
     // Stop current input
     this.input.stop();
     this.input.disconnect();
@@ -140,6 +146,9 @@ export class Stage extends EventEmitter {
    * Starts live input (microphone/line-in)
    */
   async startLiveInput(): Promise<void> {
+    // Resume audio context if needed
+    await this.resume();
+    
     // Stop current input
     this.input.stop();
     this.input.disconnect();

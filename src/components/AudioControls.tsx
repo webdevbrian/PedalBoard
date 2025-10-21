@@ -189,12 +189,12 @@ export const AudioControls: React.FC<AudioControlsProps> = ({
       <div className="mt-6 pt-4 border-t border-gray-700">
         <h4 className="text-gray-300 text-sm mb-2">Sample Audio</h4>
         <div className="space-y-2">
-          {['Sample 1', 'Sample 2', 'Sample 3'].map((sample, index) => (
+          {['Sample 1', 'Sample 2', 'Sample 3', 'Sample 4', 'Sample 5'].map((sample, index) => (
             <button
               key={sample}
               onClick={async () => {
                 try {
-                  await stage.play(`/audio/sample${index + 1}.mp3`);
+                  await stage.play(`/audio/samples/sample${index + 1}.mp3`);
                   setIsPlaying(true);
                 } catch (error) {
                   console.error('Failed to load sample:', error);

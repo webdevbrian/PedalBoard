@@ -8,9 +8,15 @@ export class VolumeModel extends BoxModel {
   constructor(context: AudioContext) {
     super(context);
     
-    // Volume pedal only has the level gain node
+    // Volume only has the level control from BoxModel
     // No additional effects needed
     this.effects = [this.level];
+    
+    // Build initial chain for internal routing
+    this.chain = [this.inputBuffer, ...this.effects, this.outputBuffer];
+    
+    // Set up initial routing
+    this.routeInternal();
   }
 
   /**
@@ -25,5 +31,28 @@ export class VolumeModel extends BoxModel {
    */
   getVolume(): number {
     return this.level.gain.value * 10;
+  }
+
+  /**
+   * Routes internal connections for volume pedal
+   */
+  routeInternal(): void {
+    // Disconnect everything first
+    try {
+      this.inputBuffer.disconnect();
+      this.level.disconnect();
+      this.outputBuffer.disconnect();
+    } catch (e) {
+      // Some might not be connected
+    }
+
+    // Simple routing: input -> level -> output
+    this.inputBuffer.connect(this.level);
+    this.level.connect(this.outputBuffer);
+
+    // Connect to next if exists
+    if (this.next) {
+      this.outputBuffer.connect(this.next);
+    }
   }
 }

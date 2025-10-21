@@ -41,9 +41,9 @@ export class Overdrive extends Box {
     // Add to pots array (volumePot is pots[0])
     this.pots.push(drivePot, tonePot);
     
-    // Set default values
-    drivePot.setActualValue(2);
-    tonePot.setActualValue(5);
+    // Set default values (more noticeable settings)
+    drivePot.setActualValue(4);
+    tonePot.setActualValue(7);
   }
 
   /**

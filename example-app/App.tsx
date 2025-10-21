@@ -150,19 +150,17 @@ function App() {
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Audio Controls */}
-          <div className="lg:col-span-1">
+        <div className="flex gap-4">
+          <div className="w-80 space-y-4">
             <AudioControls stage={stage} />
+            
           </div>
-
-          {/* Pedal Board */}
-          <div className="lg:col-span-3">
-            <PedalBoard
-              board={board}
-              onAddPedal={() => setShowPedalMenu(true)}
-            />
-          </div>
+          
+          <PedalBoard 
+            board={board} 
+            onAddPedal={() => setShowPedalMenu(true)}
+            className="flex-1" 
+          />
         </div>
       </div>
 

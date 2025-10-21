@@ -21,7 +21,7 @@
     "test": "vitest",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "type-check": "tsc --noEmit",
-    "example": "cd example-app && npm run dev"
+    "example": "vite"
   },
   "repository": {
     "type": "git",

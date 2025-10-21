@@ -54,11 +54,11 @@ export class BoxModel extends ConnectableModel {
   }
 
   /**
-   * Bypasses the effect
+   * Bypasses the effect (connects input directly to output)
    */
   bypass(): void {
     try {
-      // Disconnect effects and connect input directly to output
+      // Disconnect all effects
       this.inputBuffer.disconnect();
       this.effects.forEach(effect => {
         try {
@@ -67,7 +67,12 @@ export class BoxModel extends ConnectableModel {
           // Already disconnected
         }
       });
+      this.outputBuffer.disconnect();
+      
+      // Connect input directly to output (bypass)
       this.inputBuffer.connect(this.outputBuffer);
+      
+      // Reconnect to next if exists
       if (this.next) {
         this.outputBuffer.connect(this.next);
       }

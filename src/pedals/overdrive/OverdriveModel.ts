@@ -29,6 +29,12 @@ export class OverdriveModel extends BoxModel {
       this.level
     ];
     
+    // Build initial chain for internal routing
+    this.chain = [this.inputBuffer, ...this.effects, this.outputBuffer];
+    
+    // Set up initial routing
+    this.routeInternal();
+    
     // Initialize with mild overdrive
     this.createWSCurve(0);
   }
@@ -84,5 +90,32 @@ export class OverdriveModel extends BoxModel {
    */
   getTone(): number {
     return this.lowPass.frequency.value;
+  }
+
+  /**
+   * Routes internal connections for overdrive pedal
+   */
+  routeInternal(): void {
+    // Disconnect everything first
+    try {
+      this.inputBuffer.disconnect();
+      this.waveShaper.disconnect();
+      this.lowPass.disconnect();
+      this.level.disconnect();
+      this.outputBuffer.disconnect();
+    } catch (e) {
+      // Some might not be connected
+    }
+
+    // Route: input -> waveshaper -> lowpass -> level -> output
+    this.inputBuffer.connect(this.waveShaper);
+    this.waveShaper.connect(this.lowPass);
+    this.lowPass.connect(this.level);
+    this.level.connect(this.outputBuffer);
+
+    // Connect to next if exists
+    if (this.next) {
+      this.outputBuffer.connect(this.next);
+    }
   }
 }

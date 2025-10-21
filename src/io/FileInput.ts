@@ -25,7 +25,17 @@ export class FileInput extends Input {
     
     try {
       const response = await fetch(url);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
       const arrayBuffer = await response.arrayBuffer();
+      
+      if (arrayBuffer.byteLength === 0) {
+        throw new Error('Empty audio file received');
+      }
+      
       this.buffer = await this.context.decodeAudioData(arrayBuffer);
       this.emit('loaded', this.buffer);
     } catch (error) {

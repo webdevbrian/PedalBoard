@@ -40,8 +40,14 @@ export class DelayModel extends BoxModel {
     this.wetGain.connect(this.level);
     this.dryGain.connect(this.level);
     
-    // Effects array for routing
-    this.effects = [this.dryGain, this.delay, this.level];
+    // Effects array for routing (delay uses custom parallel routing)
+    this.effects = [this.level]; // Only the final level control in the effects chain
+    
+    // Don't build a series chain - delay uses parallel wet/dry paths
+    // The routeInternal() method handles the complex routing
+    
+    // Set up initial routing
+    this.routeInternal();
   }
 
   /**
@@ -79,11 +85,6 @@ export class DelayModel extends BoxModel {
       this.outputBuffer.connect(this.next);
     }
     
-    // Set up bypass nodes
-    this.nodes = [
-      [this.dryGain, this.inputBuffer, this.outputBuffer],
-      [this.outputBuffer, this.level, null]
-    ] as [AudioNode, AudioNode, AudioNode | null][];
   }
 
   /**

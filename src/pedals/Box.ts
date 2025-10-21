@@ -55,8 +55,8 @@ export abstract class Box extends Connectable {
     this.switches = [];
     this.leds = [];
     
-    // Create bypass switch
-    this.bypassSwitch = new ToggleSwitch('bypass');
+    // Create bypass switch (default to active/on so pedal is not bypassed)
+    this.bypassSwitch = new ToggleSwitch('bypass', true);
     
     // Create LED that follows bypass switch
     this.led = new Led(this.bypassSwitch);
@@ -67,18 +67,14 @@ export abstract class Box extends Connectable {
     // Handle bypass switching
     this.bypassSwitch.on('change', (state: boolean) => {
       if (state) {
+        // Enabled - route through effects
         this.model.enable();
+        this.led.setState(true);
       } else {
+        // Bypassed - route around effects  
         this.model.bypass();
+        this.led.setState(false);
       }
-      // Small delay to avoid clicks
-      setTimeout(() => {
-        if (state) {
-          this.model.enable();
-        } else {
-          this.model.bypass();
-        }
-      }, 10);
     });
   }
 
@@ -96,10 +92,12 @@ export abstract class Box extends Connectable {
   connect(destination: IConnectable): void {
     super.connect(destination);
     
-    // Set up bypass switch nodes if needed
-    if (this.bypassSwitch && this.model.nodes) {
-      // The bypass switch will handle routing between effect and bypass
-      this.bypassSwitch.setNodes(this.model.nodes);
+    // After routing, apply the current bypass state
+    if (this.bypassSwitch) {
+      const isBypassed = !this.bypassSwitch.getState(); // false = bypassed
+      if (isBypassed) {
+        this.model.bypass();
+      }
     }
   }
 

@@ -6,6 +6,7 @@
 import { Connectable } from './Connectable';
 import { ConnectableModel } from './ConnectableModel';
 import { Box } from '../pedals/Box';
+import { IConnectable } from '../types';
 
 export class Board extends Connectable {
   private pedals: Box[] = [];
@@ -90,6 +91,21 @@ export class Board extends Connectable {
   }
 
   /**
+   * Overrides connect to maintain pedal routing
+   */
+  connect(destination: IConnectable): void {
+    // Store the destination for outputBuffer
+    const connectableModel = this.model as ConnectableModel;
+    (connectableModel as any).next = destination.getInput();
+    
+    // Connect outputBuffer to destination
+    this.model.outputBuffer.connect(destination.getInput());
+    
+    // Ensure pedals are routed
+    this.routeInternal();
+  }
+
+  /**
    * Routes the internal signal chain through all pedals
    */
   private routeInternal(): void {
@@ -118,6 +134,16 @@ export class Board extends Connectable {
       // Connect last pedal to output
       const lastPedal = this.pedals[this.pedals.length - 1];
       lastPedal.getOutput().connect(this.model.outputBuffer);
+      
+      // Set the next connection for bypass to work properly
+      (lastPedal as any).model.next = this.model.outputBuffer;
+    }
+
+    // Reconnect outputBuffer to destination if set
+    const connectableModel = this.model as ConnectableModel;
+    const next = (connectableModel as any).next;
+    if (next) {
+      this.model.outputBuffer.connect(next);
     }
 
     // Connect to media stream if set
