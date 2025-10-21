@@ -1,0 +1,76 @@
+{
+  "name": "@pedalboard/core",
+  "version": "2.0.0",
+  "description": "Modern TypeScript library for creating guitar effects and audio processing using Web Audio API",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "build:lib": "tsc && tsup",
+    "preview": "vite preview",
+    "test": "vitest",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "type-check": "tsc --noEmit",
+    "example": "cd example-app && npm run dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/webdevbrian/pedalboard.js.git"
+  },
+  "keywords": [
+    "web-audio",
+    "audio",
+    "guitar",
+    "effects",
+    "pedals",
+    "music",
+    "dsp",
+    "typescript",
+    "react"
+  ],
+  "author": "Brian (original by Armagan Amcalar)",
+  "license": "GPL-3.0",
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/react": "^18.2.42",
+    "@types/react-dom": "^18.2.17",
+    "@typescript-eslint/eslint-plugin": "^6.13.2",
+    "@typescript-eslint/parser": "^6.13.2",
+    "@vitejs/plugin-react": "^4.2.0",
+    "autoprefixer": "^10.4.16",
+    "eslint": "^8.55.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "postcss": "^8.4.32",
+    "tailwindcss": "^3.3.6",
+    "tsup": "^8.0.1",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.7",
+    "vitest": "^1.0.4"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "lucide-react": "^0.294.0",
+    "clsx": "^2.0.0",
+    "zustand": "^4.4.7"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ]
+}
