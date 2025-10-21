@@ -29,6 +29,7 @@ export class Board extends Connectable {
   addPedal(pedal: Box): void {
     this.pedals.push(pedal);
     this.routeInternal();
+    this.emit('pedalAdded', pedal);
   }
 
   /**
@@ -37,6 +38,7 @@ export class Board extends Connectable {
   addPedalAt(pedal: Box, index: number): void {
     this.pedals.splice(index, 0, pedal);
     this.routeInternal();
+    this.emit('pedalAdded', pedal);
   }
 
   /**
@@ -48,6 +50,7 @@ export class Board extends Connectable {
       this.pedals.splice(index, 1);
       pedal.disconnect();
       this.routeInternal();
+      this.emit('pedalRemoved', pedal);
     }
   }
 
@@ -59,6 +62,7 @@ export class Board extends Connectable {
       const pedal = this.pedals.splice(index, 1)[0];
       pedal.disconnect();
       this.routeInternal();
+      this.emit('pedalRemoved', pedal);
       return pedal;
     }
     return undefined;

@@ -52,6 +52,12 @@ export class CabinetModel extends BoxModel {
       this.level
     ];
     
+    // Build initial chain for internal routing
+    this.chain = [this.inputBuffer, ...this.effects, this.outputBuffer];
+    
+    // Set up initial routing
+    this.routeInternal();
+    
     // Apply default vintage cabinet settings
     this.setCabinetType('vintage');
   }
@@ -151,5 +157,38 @@ export class CabinetModel extends BoxModel {
    */
   getCabinetType(): string {
     return this.cabinetType;
+  }
+
+  /**
+   * Routes internal connections for cabinet pedal
+   */
+  routeInternal(): void {
+    // Disconnect everything first
+    try {
+      this.inputBuffer.disconnect();
+      this.highPass.disconnect();
+      this.lowShelf.disconnect();
+      this.midPeak.disconnect();
+      this.highShelf.disconnect();
+      this.lowPass.disconnect();
+      this.level.disconnect();
+      this.outputBuffer.disconnect();
+    } catch (e) {
+      // Some might not be connected
+    }
+
+    // Route through EQ chain: input -> highpass -> lowshelf -> midpeak -> highshelf -> lowpass -> level -> output
+    this.inputBuffer.connect(this.highPass);
+    this.highPass.connect(this.lowShelf);
+    this.lowShelf.connect(this.midPeak);
+    this.midPeak.connect(this.highShelf);
+    this.highShelf.connect(this.lowPass);
+    this.lowPass.connect(this.level);
+    this.level.connect(this.outputBuffer);
+
+    // Connect to next if exists
+    if (this.next) {
+      this.outputBuffer.connect(this.next);
+    }
   }
 }
