@@ -20,7 +20,7 @@ export const Pedal: React.FC<PedalProps> = ({
   color = 'bg-gradient-to-b from-red-600 to-red-800',
   className
 }) => {
-  const [bypassed, setBypassed] = React.useState(pedal.isBypassed());
+  const [bypassed, setBypassed] = React.useState(true); // Start bypassed by default
   const [potValues, setPotValues] = React.useState<Record<string, number>>({});
 
   React.useEffect(() => {
@@ -30,6 +30,9 @@ export const Pedal: React.FC<PedalProps> = ({
       values[pot.getName()] = pot.getValue();
     });
     setPotValues(values);
+
+    // Sync initial bypass state
+    setBypassed(pedal.isBypassed());
 
     // Listen for bypass changes
     const handleBypassChange = (state: boolean) => {

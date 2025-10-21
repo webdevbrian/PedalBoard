@@ -150,8 +150,8 @@ export const PedalBoard: React.FC<PedalBoardProps> = ({
         )}
       </div>
 
-      {/* Input/Output jacks */}
-      <div className="flex justify-between mt-4 px-4"> {/* mt-8 -> mt-4, px-8 -> px-4 */}
+      {/* Input jack */}
+      <div className="flex justify-start mt-4 px-4"> {/* mt-8 -> mt-4, px-8 -> px-4, justify-between -> justify-start */}
         <div className="flex items-center gap-2">
           <div className={clsx(
             "w-6 h-6 rounded-full border-2",
@@ -166,10 +166,6 @@ export const PedalBoard: React.FC<PedalBoardProps> = ({
               {inputType === 'live' ? 'Live' : 'File'}
             </span>
           </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="text-gray-400 text-xs uppercase">Output</span> {/* text-sm -> text-xs */}
-          <div className="w-6 h-6 rounded-full bg-gray-700 border-2 border-gray-600" /> {/* w-8 h-8 -> w-6 h-6 */}
         </div>
       </div>
     </div>

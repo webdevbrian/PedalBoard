@@ -25,6 +25,13 @@ export abstract class Box extends Connectable {
 
   constructor(context: AudioContext, ModelClass: typeof BoxModel = BoxModel) {
     super(context, ModelClass as any);
+    
+    // Apply initial bypass state after construction
+    setTimeout(() => {
+      if (this.bypassSwitch && !this.bypassSwitch.getState()) {
+        this.model.bypass();
+      }
+    }, 0);
   }
 
   /**
