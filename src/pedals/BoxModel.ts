@@ -7,7 +7,7 @@ import { ConnectableModel } from '../core/ConnectableModel';
 
 export class BoxModel extends ConnectableModel {
   public level: GainNode;
-  public nodes: AudioNode[][][] = [];
+  public nodes: [AudioNode, AudioNode, AudioNode | null][] = [];
   
   constructor(context: AudioContext) {
     super(context);
@@ -42,7 +42,7 @@ export class BoxModel extends ConnectableModel {
       this.nodes = [
         [this.effects[0], this.inputBuffer, this.outputBuffer],
         [this.outputBuffer, this.effects[this.effects.length - 1], null]
-      ];
+      ] as [AudioNode, AudioNode, AudioNode | null][];
     }
   }
 

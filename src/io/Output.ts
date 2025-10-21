@@ -3,8 +3,9 @@
  */
 
 import { EventEmitter } from '../utils/EventEmitter';
+import { IConnectable } from '../types';
 
-export class Output extends EventEmitter {
+export class Output extends EventEmitter implements IConnectable {
   private context: AudioContext;
   private inputNode: GainNode;
   private masterVolume: GainNode;
@@ -53,6 +54,38 @@ export class Output extends EventEmitter {
    */
   getInput(): AudioNode {
     return this.inputNode;
+  }
+
+  /**
+   * Gets the output node (returns destination for compatibility)
+   */
+  getOutput(): AudioNode {
+    return this.context.destination;
+  }
+
+  /**
+   * Connects to another destination (for IConnectable compatibility)
+   */
+  connect(destination: IConnectable): void {
+    this.analyser.connect(destination.getInput());
+  }
+
+  /**
+   * Sets previous in chain (for IConnectable compatibility)
+   */
+  setPrev(_prev: IConnectable): void {
+    // Output doesn't need to track previous
+  }
+
+  /**
+   * Disconnects (for IConnectable compatibility)
+   */
+  disconnect(): void {
+    try {
+      this.analyser.disconnect();
+    } catch (e) {
+      // Already disconnected
+    }
   }
 
   /**

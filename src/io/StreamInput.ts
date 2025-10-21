@@ -18,8 +18,7 @@ export class StreamInput extends Input {
       audio: {
         echoCancellation: false,
         noiseSuppression: false,
-        autoGainControl: false,
-        latency: 0
+        autoGainControl: false
       },
       video: false
     };

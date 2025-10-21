@@ -7,7 +7,6 @@ import { Input } from './Input';
 export class FileInput extends Input {
   private buffer?: AudioBuffer;
   private bufferSource?: AudioBufferSourceNode;
-  private url?: string;
   private startTime: number = 0;
   private pauseTime: number = 0;
 
@@ -22,7 +21,6 @@ export class FileInput extends Input {
    * Loads an audio file from URL
    */
   async loadFile(url: string): Promise<void> {
-    this.url = url;
     this.emit('loading');
     
     try {

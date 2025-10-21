@@ -96,7 +96,7 @@ export const Pedal: React.FC<PedalProps> = ({
 
       {/* Knobs */}
       <div className="grid grid-cols-2 gap-4 mb-8">
-        {pedal.pots.map((pot, index) => (
+        {pedal.pots.map((pot) => (
           <Knob
             key={pot.getName()}
             value={potValues[pot.getName()] || pot.getValue()}

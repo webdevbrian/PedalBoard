@@ -45,6 +45,14 @@ export { EventEmitter } from './utils/EventEmitter';
 export * from './types';
 
 // Default export for convenience
+import { Stage } from './core/Stage';
+import { Board } from './core/Board';
+import { Overdrive } from './pedals/overdrive/Overdrive';
+import { Delay } from './pedals/delay/Delay';
+import { Reverb } from './pedals/reverb/Reverb';
+import { Volume } from './pedals/volume/Volume';
+import { Cabinet } from './pedals/cabinet/Cabinet';
+
 export default {
   Stage,
   Board,

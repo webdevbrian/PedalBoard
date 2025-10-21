@@ -8,7 +8,7 @@ import { ISwitchState } from '../../types';
 export abstract class Switch extends EventEmitter {
   protected state: boolean = false;
   protected name: string;
-  protected nodes?: AudioNode[][][];
+  protected nodes?: [AudioNode, AudioNode, AudioNode | null][];
 
   constructor(name: string, defaultState: boolean = false) {
     super();
@@ -44,7 +44,7 @@ export abstract class Switch extends EventEmitter {
    * Sets the audio nodes for bypass routing
    * Format: [[activeNode, inputNode, bypassNode], ...]
    */
-  setNodes(nodes: AudioNode[][][]): void {
+  setNodes(nodes: [AudioNode, AudioNode, AudioNode | null][]): void {
     this.nodes = nodes;
     this.routeNodes();
   }

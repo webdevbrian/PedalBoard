@@ -7,7 +7,7 @@ import { CabinetModel } from './CabinetModel';
 import { LinearPot } from '../../controls/pots/LinearPot';
 
 export class Cabinet extends Box {
-  protected model: CabinetModel;
+  declare protected model: CabinetModel;
   public readonly name = 'cabinet';
   
   private bassPot!: LinearPot;
@@ -17,7 +17,6 @@ export class Cabinet extends Box {
 
   constructor(context: AudioContext) {
     super(context, CabinetModel);
-    this.model = this.model as CabinetModel;
   }
 
   /**

@@ -7,7 +7,7 @@ import { ReverbModel } from './ReverbModel';
 import { LinearPot } from '../../controls/pots/LinearPot';
 
 export class Reverb extends Box {
-  protected model: ReverbModel;
+  declare protected model: ReverbModel;
   public readonly name = 'reverb';
   
   private roomSizePot!: LinearPot;
@@ -16,7 +16,6 @@ export class Reverb extends Box {
 
   constructor(context: AudioContext) {
     super(context, ReverbModel);
-    this.model = this.model as ReverbModel;
   }
 
   /**

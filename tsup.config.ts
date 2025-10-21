@@ -6,7 +6,7 @@ export default defineConfig({
   dts: true,
   splitting: false,
   sourcemap: true,
-  clean: true,
+  clean: false, // Disable auto-clean to avoid Windows file locking issues
   external: ['react', 'react-dom'],
   minify: true,
   treeshake: true,

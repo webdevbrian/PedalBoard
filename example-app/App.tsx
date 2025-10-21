@@ -2,12 +2,12 @@
  * Example React application demonstrating Pedalboard.js
  */
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Stage, Board, Overdrive, Delay, Reverb, Volume, Cabinet } from '../src';
 import { PedalBoard } from '../src/components/PedalBoard';
 import { AudioControls } from '../src/components/AudioControls';
 import { Box } from '../src/pedals/Box';
-import { Plus, Settings, Save, FolderOpen } from 'lucide-react';
+import { Save, FolderOpen } from 'lucide-react';
 
 function App() {
   const [stage, setStage] = useState<Stage | null>(null);

@@ -6,12 +6,11 @@ import { Box } from '../Box';
 import { VolumeModel } from './VolumeModel';
 
 export class Volume extends Box {
-  protected model: VolumeModel;
+  declare protected model: VolumeModel;
   public readonly name = 'volume';
 
   constructor(context: AudioContext) {
     super(context, VolumeModel);
-    this.model = this.model as VolumeModel;
   }
 
   /**

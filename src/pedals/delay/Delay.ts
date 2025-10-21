@@ -7,7 +7,7 @@ import { DelayModel } from './DelayModel';
 import { LinearPot } from '../../controls/pots/LinearPot';
 
 export class Delay extends Box {
-  protected model: DelayModel;
+  declare protected model: DelayModel;
   public readonly name = 'delay';
   
   private timePot!: LinearPot;
@@ -16,7 +16,6 @@ export class Delay extends Box {
 
   constructor(context: AudioContext) {
     super(context, DelayModel);
-    this.model = this.model as DelayModel;
   }
 
   /**

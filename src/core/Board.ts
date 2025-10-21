@@ -6,7 +6,6 @@
 import { Connectable } from './Connectable';
 import { ConnectableModel } from './ConnectableModel';
 import { Box } from '../pedals/Box';
-import { IConnectable } from '../types';
 
 export class Board extends Connectable {
   private pedals: Box[] = [];

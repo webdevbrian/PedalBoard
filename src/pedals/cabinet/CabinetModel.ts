@@ -10,7 +10,6 @@ export class CabinetModel extends BoxModel {
   private midPeak: BiquadFilterNode;
   private lowPass: BiquadFilterNode;
   private highPass: BiquadFilterNode;
-  private convolver?: ConvolverNode;
   private cabinetType: 'vintage' | 'modern' | 'british' | 'custom' = 'vintage';
 
   constructor(context: AudioContext) {

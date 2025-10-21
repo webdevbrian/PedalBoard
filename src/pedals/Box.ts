@@ -6,16 +6,17 @@
 import { Connectable } from '../core/Connectable';
 import { BoxModel } from './BoxModel';
 import { LinearPot } from '../controls/pots/LinearPot';
+import { Pot } from '../controls/pots/Pot';
 import { ToggleSwitch } from '../controls/switches/ToggleSwitch';
 import { Led } from '../controls/Led';
 import { IConnectable } from '../types';
 
 export abstract class Box extends Connectable {
-  protected model: BoxModel;
-  public volumePot: LinearPot;
-  public bypassSwitch: ToggleSwitch;
-  public led: Led;
-  public pots: LinearPot[] = [];
+  declare protected model: BoxModel;
+  public volumePot!: LinearPot;
+  public bypassSwitch!: ToggleSwitch;
+  public led!: Led;
+  public pots: Pot[] = [];
   public switches: ToggleSwitch[] = [];
   public leds: Led[] = [];
   
@@ -24,12 +25,7 @@ export abstract class Box extends Connectable {
 
   constructor(context: AudioContext, ModelClass: typeof BoxModel = BoxModel) {
     super(context, ModelClass as any);
-    this.model = this.model as BoxModel;
-    
-    // Volume pot is created in createPots
-    this.volumePot = null as any;
-    this.bypassSwitch = null as any;
-    this.led = null as any;
+    this.model = new ModelClass(context) as BoxModel;
   }
 
   /**

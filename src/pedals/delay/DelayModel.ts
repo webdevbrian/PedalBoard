@@ -48,7 +48,6 @@ export class DelayModel extends BoxModel {
    * Routes internal connections
    */
   routeInternal(): void {
-    const chain = [this.inputBuffer, this.outputBuffer];
     
     // Disconnect everything first
     try {
@@ -84,7 +83,7 @@ export class DelayModel extends BoxModel {
     this.nodes = [
       [this.dryGain, this.inputBuffer, this.outputBuffer],
       [this.outputBuffer, this.level, null]
-    ];
+    ] as [AudioNode, AudioNode, AudioNode | null][];
   }
 
   /**

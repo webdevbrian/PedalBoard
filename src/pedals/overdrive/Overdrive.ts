@@ -7,7 +7,7 @@ import { OverdriveModel } from './OverdriveModel';
 import { LogPot } from '../../controls/pots/LogPot';
 
 export class Overdrive extends Box {
-  protected model: OverdriveModel;
+  declare protected model: OverdriveModel;
   public readonly name = 'overdrive';
   
   private drivePot!: LogPot;
@@ -15,7 +15,6 @@ export class Overdrive extends Box {
 
   constructor(context: AudioContext) {
     super(context, OverdriveModel);
-    this.model = this.model as OverdriveModel;
   }
 
   /**

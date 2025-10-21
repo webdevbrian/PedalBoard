@@ -103,7 +103,7 @@ export class ReverbModel extends BoxModel {
     this.nodes = [
       [this.dryGain, this.inputBuffer, this.outputBuffer],
       [this.outputBuffer, this.level, null]
-    ];
+    ] as [AudioNode, AudioNode, AudioNode | null][];
   }
 
   /**
