@@ -55,8 +55,8 @@ export abstract class Box extends Connectable {
     this.switches = [];
     this.leds = [];
     
-    // Create bypass switch (default to active/on so pedal is not bypassed)
-    this.bypassSwitch = new ToggleSwitch('bypass', true);
+    // Create bypass switch (default to bypassed/off so pedal starts disabled)
+    this.bypassSwitch = new ToggleSwitch('bypass', false);
     
     // Create LED that follows bypass switch
     this.led = new Led(this.bypassSwitch);
