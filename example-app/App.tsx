@@ -18,6 +18,7 @@ function App() {
   const [showPedalMenu, setShowPedalMenu] = useState(false);
   const [inputType, setInputType] = useState<'file' | 'live'>('file');
   const [audioControlsCollapsed, setAudioControlsCollapsed] = useState(false);
+  const [currentPreset, setCurrentPreset] = useState<string | null>(null);
 
   useEffect(() => {
     // Only initialize once
@@ -99,20 +100,86 @@ function App() {
     if (pedal) {
       board.addPedal(pedal);
       setShowPedalMenu(false);
+      // Clear preset name when board is modified
+      setCurrentPreset(null);
     }
   };
 
   const savePreset = () => {
     if (!board) return;
     
-    const preset = board.toJSON();
-    const blob = new Blob([JSON.stringify(preset, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'pedalboard-preset.json';
-    a.click();
-    URL.revokeObjectURL(url);
+    try {
+      const preset = board.toJSON();
+      const blob = new Blob([JSON.stringify(preset, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `pedalboard-preset-${new Date().toISOString().slice(0, 10)}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      
+      console.log('Preset saved successfully');
+    } catch (error) {
+      console.error('Failed to save preset:', error);
+      alert('Failed to save preset. Please try again.');
+    }
+  };
+
+  // Pedal factory function
+  const createPedal = (type: string) => {
+    if (!stage) return null;
+    
+    const context = stage.getContext();
+    
+    switch (type) {
+      case 'overdrive':
+        return new Overdrive(context);
+      case 'delay':
+        return new Delay(context);
+      case 'reverb':
+        return new Reverb(context);
+      case 'volume':
+        return new Volume(context);
+      case 'cabinet':
+        return new Cabinet(context);
+      default:
+        console.warn(`Unknown pedal type: ${type}`);
+        return null;
+    }
+  };
+
+  const loadPreset = () => {
+    if (!board || !stage) return;
+    
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json';
+    input.onchange = async (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (!file) return;
+      
+      try {
+        const text = await file.text();
+        const preset = JSON.parse(text);
+        
+        // Stop current audio
+        stage.stop();
+        
+        // Load the preset into the board with pedal factory
+        board.fromJSON(preset, createPedal);
+        
+        // Set the current preset name (remove .json extension)
+        const presetName = file.name.replace(/\.json$/i, '');
+        setCurrentPreset(presetName);
+        
+        console.log('Preset loaded successfully:', presetName);
+        // The board will emit events that trigger UI updates automatically
+      } catch (error) {
+        console.error('Failed to load preset:', error);
+        alert('Failed to load preset. Please check the file format.');
+      }
+    };
+    input.click();
   };
 
   if (!stage || !board) {
@@ -152,6 +219,7 @@ function App() {
               Save Preset
             </button>
             <button
+              onClick={loadPreset}
               className="px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors flex items-center gap-2"
             >
               <FolderOpen size={18} />
@@ -201,7 +269,9 @@ function App() {
           <PedalBoard 
             board={board} 
             onAddPedal={() => setShowPedalMenu(true)}
+            onBoardModified={() => setCurrentPreset(null)}
             inputType={inputType}
+            currentPreset={currentPreset}
             className="flex-1" 
           />
         </div>

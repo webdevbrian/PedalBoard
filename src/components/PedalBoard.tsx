@@ -12,14 +12,18 @@ import { Plus, X, GripVertical } from 'lucide-react';
 interface PedalBoardProps {
   board: Board;
   onAddPedal?: () => void;
+  onBoardModified?: () => void;
   inputType?: 'file' | 'live';
+  currentPreset?: string | null;
   className?: string;
 }
 
 export const PedalBoard: React.FC<PedalBoardProps> = ({
   board,
   onAddPedal,
+  onBoardModified,
   inputType = 'file',
+  currentPreset,
   className
 }) => {
   const [pedals, setPedals] = useState<Box[]>(board.getPedals());
@@ -45,7 +49,9 @@ export const PedalBoard: React.FC<PedalBoardProps> = ({
   const handleRemovePedal = useCallback((index: number) => {
     board.removePedalAt(index);
     setPedals(board.getPedals());
-  }, [board]);
+    // Notify that board was modified
+    onBoardModified?.();
+  }, [board, onBoardModified]);
 
   const handleDragStart = useCallback((index: number) => {
     setDraggedIndex(index);
@@ -78,6 +84,11 @@ export const PedalBoard: React.FC<PedalBoardProps> = ({
         <h2 className="text-xl font-bold text-white uppercase tracking-widest"> {/* text-2xl -> text-xl */}
           Pedalboard
         </h2>
+        {currentPreset && (
+          <p className="text-sm text-gray-400 mt-1">
+            Preset: <span className="text-blue-400 font-medium">{currentPreset}</span>
+          </p>
+        )}
       </div>
 
       {/* Pedals container */}

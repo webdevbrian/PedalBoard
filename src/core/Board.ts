@@ -197,4 +197,52 @@ export class Board extends Connectable {
       }))
     };
   }
+
+  /**
+   * Loads board configuration from JSON
+   */
+  fromJSON(data: any, pedalFactory?: (type: string) => any): void {
+    if (!data || !data.pedals) {
+      throw new Error('Invalid preset format');
+    }
+
+    // Clear all existing pedals
+    const existingPedals = [...this.pedals];
+    existingPedals.forEach(pedal => {
+      this.removePedal(pedal);
+    });
+
+    // Recreate pedals from preset data
+    data.pedals.forEach((pedalData: any) => {
+      if (!pedalFactory) {
+        console.warn('No pedal factory provided, cannot recreate pedals');
+        return;
+      }
+
+      const pedal = pedalFactory(pedalData.name);
+      
+      if (pedal) {
+        // Add pedal to board first
+        this.addPedal(pedal);
+
+        // Restore pot values
+        pedalData.pots?.forEach((potData: any) => {
+          const pot = pedal.pots.find((p: any) => p.getName() === potData.name);
+          if (pot) {
+            pot.setValue(potData.value);
+          }
+        });
+
+        // Restore bypass state
+        if (pedalData.bypassed !== pedal.isBypassed()) {
+          pedal.bypassSwitch.toggle();
+        }
+      } else {
+        console.warn(`Failed to create pedal of type: ${pedalData.name}`);
+      }
+    });
+
+    // Re-route the board
+    this.routeInternal();
+  }
 }
