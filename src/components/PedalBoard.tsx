@@ -65,21 +65,21 @@ export const PedalBoard: React.FC<PedalBoardProps> = ({
   return (
     <div
       className={clsx(
-        'min-h-[400px] p-8 rounded-xl',
+        'min-h-[400px] p-4 rounded-xl', // p-8 -> p-4 (50% less padding)
         'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900',
         'border-4 border-gray-700 shadow-2xl',
         className
       )}
     >
       {/* Board title */}
-      <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-white uppercase tracking-widest">
+      <div className="text-center mb-4"> {/* mb-6 -> mb-4 */}
+        <h2 className="text-xl font-bold text-white uppercase tracking-widest"> {/* text-2xl -> text-xl */}
           Pedalboard
         </h2>
       </div>
 
       {/* Pedals container */}
-      <div className="flex flex-wrap gap-6 justify-center items-center min-h-[300px]">
+      <div className="flex flex-wrap gap-4 justify-center items-center min-h-[250px]"> {/* gap-6 -> gap-4, min-h-[300px] -> min-h-[250px] */}
         {pedals.length === 0 ? (
           <div className="text-gray-500 text-center">
             <p className="mb-4">No pedals on the board</p>
@@ -129,7 +129,7 @@ export const PedalBoard: React.FC<PedalBoardProps> = ({
 
                 {/* Cable visualization */}
                 {index < pedals.length - 1 && (
-                  <div className="absolute top-1/2 -right-3 w-6 h-1 bg-gray-600 z-0" />
+                  <div className="absolute top-1/2 -right-6 w-6 h-1 bg-gray-600 z-0" />
                 )}
               </div>
             ))}
@@ -149,14 +149,14 @@ export const PedalBoard: React.FC<PedalBoardProps> = ({
       </div>
 
       {/* Input/Output jacks */}
-      <div className="flex justify-between mt-8 px-8">
+      <div className="flex justify-between mt-4 px-4"> {/* mt-8 -> mt-4, px-8 -> px-4 */}
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-gray-700 border-2 border-gray-600" />
-          <span className="text-gray-400 text-sm uppercase">Input</span>
+          <div className="w-6 h-6 rounded-full bg-gray-700 border-2 border-gray-600" /> {/* w-8 h-8 -> w-6 h-6 */}
+          <span className="text-gray-400 text-xs uppercase">Input</span> {/* text-sm -> text-xs */}
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-gray-400 text-sm uppercase">Output</span>
-          <div className="w-8 h-8 rounded-full bg-gray-700 border-2 border-gray-600" />
+          <span className="text-gray-400 text-xs uppercase">Output</span> {/* text-sm -> text-xs */}
+          <div className="w-6 h-6 rounded-full bg-gray-700 border-2 border-gray-600" /> {/* w-8 h-8 -> w-6 h-6 */}
         </div>
       </div>
     </div>

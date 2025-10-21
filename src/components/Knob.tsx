@@ -11,7 +11,7 @@ interface KnobProps {
   max?: number;
   onChange: (value: number) => void;
   label?: string;
-  size?: 'small' | 'medium' | 'large';
+  size?: 'tiny' | 'small' | 'medium' | 'large';
   className?: string;
 }
 
@@ -72,13 +72,18 @@ export const Knob: React.FC<KnobProps> = ({
   const rotation = ((internalValue - min) / (max - min)) * 270 - 135;
   
   const sizeClasses = {
+    tiny: 'w-8 h-8',
     small: 'w-10 h-10',
     medium: 'w-14 h-14',
     large: 'w-20 h-20'
   };
 
   return (
-    <div className={clsx('flex flex-col items-center gap-2', className)}>
+    <div className={clsx(
+      'flex flex-col items-center',
+      size === 'tiny' ? 'gap-1' : 'gap-2',
+      className
+    )}>
       <div
         ref={knobRef}
         className={clsx(
@@ -97,12 +102,18 @@ export const Knob: React.FC<KnobProps> = ({
         <div className="absolute top-1 left-1/2 -translate-x-1/2 w-1 h-1/3 bg-white rounded-full" />
       </div>
       {label && (
-        <div className="text-xs text-gray-300 font-medium uppercase tracking-wider">
+        <div className={clsx(
+          'text-gray-300 font-medium uppercase tracking-wider',
+          size === 'tiny' ? 'text-xs' : 'text-xs'
+        )}>
           {label}
         </div>
       )}
-      <div className="text-xs text-gray-400">
-        {internalValue.toFixed(1)}
+      <div className={clsx(
+        'text-gray-400',
+        size === 'tiny' ? 'text-xs' : 'text-xs'
+      )}>
+        {internalValue.toFixed(size === 'tiny' ? 0 : 1)}
       </div>
     </div>
   );
