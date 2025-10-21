@@ -8,6 +8,7 @@ export class StreamInput extends Input {
   private stream?: MediaStream;
   private sourceNode?: MediaStreamAudioSourceNode;
   private analyser?: AnalyserNode;
+  private inputGain?: GainNode;
   private constraints: MediaStreamConstraints;
 
   constructor(context: AudioContext, autoStart: boolean = true) {
@@ -41,12 +42,17 @@ export class StreamInput extends Input {
       // Create source node from stream
       this.sourceNode = this.context.createMediaStreamSource(this.stream);
       
+      // Create input gain to boost microphone signal
+      this.inputGain = this.context.createGain();
+      this.inputGain.gain.value = 3.0; // Boost microphone input for better effect processing
+      
       // Create analyser for level monitoring
       this.analyser = this.context.createAnalyser();
       this.analyser.fftSize = 256;
       
-      // Connect nodes
-      this.sourceNode.connect(this.analyser);
+      // Connect nodes: source -> gain -> analyser -> output
+      this.sourceNode.connect(this.inputGain);
+      this.inputGain.connect(this.analyser);
       this.analyser.connect(this.outputNode);
       
       this.isPlaying = true;
@@ -70,6 +76,15 @@ export class StreamInput extends Input {
         // Already disconnected
       }
       this.sourceNode = undefined;
+    }
+
+    if (this.inputGain) {
+      try {
+        this.inputGain.disconnect();
+      } catch (e) {
+        // Already disconnected
+      }
+      this.inputGain = undefined;
     }
 
     if (this.analyser) {
