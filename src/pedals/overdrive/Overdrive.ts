@@ -9,9 +9,6 @@ import { LogPot } from '../../controls/pots/LogPot';
 export class Overdrive extends Box {
   declare protected model: OverdriveModel;
   public readonly name = 'overdrive';
-  
-  private drivePot!: LogPot;
-  private tonePot!: LogPot;
 
   constructor(context: AudioContext) {
     super(context, OverdriveModel);
@@ -23,8 +20,8 @@ export class Overdrive extends Box {
   protected createPots(): void {
     super.createPots();
     
-    // Drive pot (distortion amount)
-    this.drivePot = new LogPot(
+    // Drive pot (distortion amount) - pots[1]
+    const drivePot = new LogPot(
       (value: number) => this.model.setDrive(value),
       'drive',
       10,
@@ -32,8 +29,8 @@ export class Overdrive extends Box {
       10
     );
     
-    // Tone pot (brightness)
-    this.tonePot = new LogPot(
+    // Tone pot (brightness) - pots[2]
+    const tonePot = new LogPot(
       (value: number) => this.model.setTone(value),
       'tone',
       10,
@@ -41,39 +38,44 @@ export class Overdrive extends Box {
       10
     );
     
-    // Add to pots array
-    this.pots.push(this.drivePot, this.tonePot);
+    // Add to pots array (volumePot is pots[0])
+    this.pots.push(drivePot, tonePot);
     
     // Set default values
-    this.drivePot.setActualValue(2);
-    this.tonePot.setActualValue(5);
+    drivePot.setActualValue(2);
+    tonePot.setActualValue(5);
   }
 
   /**
    * Sets the drive amount
    */
   setDrive(value: number): void {
-    this.drivePot.setActualValue(value);
+    const drivePot = this.pots[1] as LogPot;
+    if (!drivePot) {
+      console.error('Drive pot not initialized');
+      return;
+    }
+    drivePot.setActualValue(value);
   }
 
   /**
    * Gets the drive amount
    */
   getDrive(): number {
-    return this.drivePot.getValue();
+    return (this.pots[1] as LogPot).getValue();
   }
 
   /**
    * Sets the tone
    */
   setTone(value: number): void {
-    this.tonePot.setActualValue(value);
+    (this.pots[2] as LogPot).setActualValue(value);
   }
 
   /**
    * Gets the tone
    */
   getTone(): number {
-    return this.tonePot.getValue();
+    return (this.pots[2] as LogPot).getValue();
   }
 }

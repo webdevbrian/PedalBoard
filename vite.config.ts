@@ -10,6 +10,10 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
       '@pedalboard': path.resolve(__dirname, './src'),
     },
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
+  },
+  optimizeDeps: {
+    include: ['react', 'react-dom'],
   },
   build: {
     lib: {

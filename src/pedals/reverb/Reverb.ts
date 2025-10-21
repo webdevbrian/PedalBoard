@@ -9,10 +9,6 @@ import { LinearPot } from '../../controls/pots/LinearPot';
 export class Reverb extends Box {
   declare protected model: ReverbModel;
   public readonly name = 'reverb';
-  
-  private roomSizePot!: LinearPot;
-  private mixPot!: LinearPot;
-  private brightnessPot!: LinearPot;
 
   constructor(context: AudioContext) {
     super(context, ReverbModel);
@@ -24,8 +20,8 @@ export class Reverb extends Box {
   protected createPots(): void {
     super.createPots();
     
-    // Room size pot
-    this.roomSizePot = new LinearPot(
+    // Room size pot - pots[1]
+    const roomSizePot = new LinearPot(
       (value: number) => this.model.setRoomSize(value),
       'room',
       10,
@@ -33,8 +29,8 @@ export class Reverb extends Box {
       10
     );
     
-    // Mix pot (dry/wet balance)
-    this.mixPot = new LinearPot(
+    // Mix pot (dry/wet balance) - pots[2]
+    const mixPot = new LinearPot(
       (value: number) => this.model.setMix(value),
       'mix',
       1,
@@ -42,8 +38,8 @@ export class Reverb extends Box {
       1
     );
     
-    // Brightness pot
-    this.brightnessPot = new LinearPot(
+    // Brightness pot - pots[3]
+    const brightnessPot = new LinearPot(
       (value: number) => this.model.setBrightness(value),
       'tone',
       10,
@@ -51,20 +47,20 @@ export class Reverb extends Box {
       10
     );
     
-    // Add to pots array
-    this.pots.push(this.roomSizePot, this.mixPot, this.brightnessPot);
+    // Add to pots array (volumePot is pots[0])
+    this.pots.push(roomSizePot, mixPot, brightnessPot);
     
     // Set default values
-    this.roomSizePot.setActualValue(5); // Medium room
-    this.mixPot.setActualValue(0.3); // 30% mix
-    this.brightnessPot.setActualValue(5); // Medium brightness
+    roomSizePot.setActualValue(5); // Medium room
+    mixPot.setActualValue(0.3); // 30% mix
+    brightnessPot.setActualValue(5); // Medium brightness
   }
 
   /**
    * Sets the room size
    */
   setRoomSize(value: number): void {
-    this.roomSizePot.setActualValue(value);
+    (this.pots[1] as LinearPot).setActualValue(value);
   }
 
   /**
@@ -72,14 +68,14 @@ export class Reverb extends Box {
    */
   setLevel(value: number): void {
     // Map 0-10 to 0-1 for mix
-    this.mixPot.setActualValue(value / 10);
+    (this.pots[2] as LinearPot).setActualValue(value / 10);
   }
 
   /**
    * Sets the brightness
    */
   setBrightness(value: number): void {
-    this.brightnessPot.setActualValue(value);
+    (this.pots[3] as LinearPot).setActualValue(value);
   }
 
   /**

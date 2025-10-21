@@ -9,10 +9,6 @@ import { LinearPot } from '../../controls/pots/LinearPot';
 export class Delay extends Box {
   declare protected model: DelayModel;
   public readonly name = 'delay';
-  
-  private timePot!: LinearPot;
-  private feedbackPot!: LinearPot;
-  private mixPot!: LinearPot;
 
   constructor(context: AudioContext) {
     super(context, DelayModel);
@@ -24,8 +20,8 @@ export class Delay extends Box {
   protected createPots(): void {
     super.createPots();
     
-    // Delay time pot (0-2 seconds)
-    this.timePot = new LinearPot(
+    // Delay time pot (0-2 seconds) - pots[1]
+    const timePot = new LinearPot(
       (value: number) => this.model.setDelayTime(value),
       'time',
       2,
@@ -33,8 +29,8 @@ export class Delay extends Box {
       2
     );
     
-    // Feedback pot (0-95% feedback)
-    this.feedbackPot = new LinearPot(
+    // Feedback pot (0-95% feedback) - pots[2]
+    const feedbackPot = new LinearPot(
       (value: number) => this.model.setFeedback(value),
       'feedback',
       0.95,
@@ -42,8 +38,8 @@ export class Delay extends Box {
       0.95
     );
     
-    // Mix pot (dry/wet balance)
-    this.mixPot = new LinearPot(
+    // Mix pot (dry/wet balance) - pots[3]
+    const mixPot = new LinearPot(
       (value: number) => this.model.setMix(value),
       'mix',
       1,
@@ -51,13 +47,13 @@ export class Delay extends Box {
       1
     );
     
-    // Add to pots array
-    this.pots.push(this.timePot, this.feedbackPot, this.mixPot);
+    // Add to pots array (volumePot is pots[0])
+    this.pots.push(timePot, feedbackPot, mixPot);
     
     // Set default values
-    this.timePot.setActualValue(0.3); // 300ms
-    this.feedbackPot.setActualValue(0.4); // 40% feedback
-    this.mixPot.setActualValue(0.5); // 50% mix
+    timePot.setActualValue(0.3); // 300ms
+    feedbackPot.setActualValue(0.4); // 40% feedback
+    mixPot.setActualValue(0.5); // 50% mix
   }
 
   /**
@@ -66,7 +62,7 @@ export class Delay extends Box {
   setDelayTimer(value: number): void {
     // Map 0-10 to 0-2 seconds
     value = (value / 10) * 2;
-    this.timePot.setActualValue(value);
+    (this.pots[1] as LinearPot).setActualValue(value);
   }
 
   /**
@@ -75,7 +71,7 @@ export class Delay extends Box {
   setFeedbackGain(value: number): void {
     // Map 0-10 to 0-0.95
     value = (value / 10) * 0.95;
-    this.feedbackPot.setActualValue(value);
+    (this.pots[2] as LinearPot).setActualValue(value);
   }
 
   /**
@@ -84,27 +80,27 @@ export class Delay extends Box {
   setMix(value: number): void {
     // Map 0-10 to 0-1
     value = value / 10;
-    this.mixPot.setActualValue(value);
+    (this.pots[3] as LinearPot).setActualValue(value);
   }
 
   /**
    * Gets the delay time in seconds
    */
   getDelayTime(): number {
-    return this.timePot.getValue();
+    return (this.pots[1] as LinearPot).getValue();
   }
 
   /**
    * Gets the feedback amount
    */
   getFeedback(): number {
-    return this.feedbackPot.getValue();
+    return (this.pots[2] as LinearPot).getValue();
   }
 
   /**
    * Gets the mix amount
    */
   getMix(): number {
-    return this.mixPot.getValue();
+    return (this.pots[3] as LinearPot).getValue();
   }
 }

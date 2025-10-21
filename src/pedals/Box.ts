@@ -13,25 +13,27 @@ import { IConnectable } from '../types';
 
 export abstract class Box extends Connectable {
   declare protected model: BoxModel;
-  public volumePot!: LinearPot;
-  public bypassSwitch!: ToggleSwitch;
-  public led!: Led;
-  public pots: Pot[] = [];
-  public switches: ToggleSwitch[] = [];
-  public leds: Led[] = [];
+  declare public volumePot: LinearPot;
+  declare public bypassSwitch: ToggleSwitch;
+  declare public led: Led;
+  declare public pots: Pot[];
+  declare public switches: ToggleSwitch[];
+  declare public leds: Led[];
   
   // Abstract property that subclasses must implement
   abstract readonly name: string;
 
   constructor(context: AudioContext, ModelClass: typeof BoxModel = BoxModel) {
     super(context, ModelClass as any);
-    this.model = new ModelClass(context) as BoxModel;
   }
 
   /**
    * Creates the potentiometers for this pedal
    */
   protected createPots(): void {
+    // Initialize pots array
+    this.pots = [];
+    
     // Create volume pot that controls the level gain
     this.volumePot = new LinearPot(
       (value: number) => this.model.setLevel(value),
@@ -49,6 +51,10 @@ export abstract class Box extends Connectable {
    * Creates the switches for this pedal
    */
   protected createSwitches(): void {
+    // Initialize arrays
+    this.switches = [];
+    this.leds = [];
+    
     // Create bypass switch
     this.bypassSwitch = new ToggleSwitch('bypass');
     

@@ -2,7 +2,7 @@
  * Example React application demonstrating Pedalboard.js
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Stage, Board, Overdrive, Delay, Reverb, Volume, Cabinet } from '../src';
 import { PedalBoard } from '../src/components/PedalBoard';
 import { AudioControls } from '../src/components/AudioControls';
@@ -10,20 +10,34 @@ import { Box } from '../src/pedals/Box';
 import { Save, FolderOpen } from 'lucide-react';
 
 function App() {
+  const initRef = useRef(false);
+  const stageRef = useRef<Stage | null>(null);
+  const boardRef = useRef<Board | null>(null);
   const [stage, setStage] = useState<Stage | null>(null);
   const [board, setBoard] = useState<Board | null>(null);
   const [showPedalMenu, setShowPedalMenu] = useState(false);
 
   useEffect(() => {
+    // Only initialize once
+    if (initRef.current) return;
+    initRef.current = true;
+    
     // Initialize audio context and stage
     const newStage = new Stage();
     const newBoard = new Board(newStage.getContext());
+    
+    // Store in refs immediately
+    stageRef.current = newStage;
+    boardRef.current = newBoard;
     
     // Add some default pedals
     const overdrive = new Overdrive(newStage.getContext());
     const delay = new Delay(newStage.getContext());
     const reverb = new Reverb(newStage.getContext());
     const volume = new Volume(newStage.getContext());
+    
+    // Add pedals to board
+    newBoard.addPedals([overdrive, delay, reverb, volume]);
     
     // Configure default settings
     overdrive.setDrive(2);
@@ -36,9 +50,6 @@ function App() {
     
     reverb.setLevel(3);
     volume.setLevel(10);
-    
-    // Add pedals to board
-    newBoard.addPedals([overdrive, delay, reverb, volume]);
     
     // Set board on stage
     newStage.setBoard(newBoard);
@@ -54,7 +65,7 @@ function App() {
     document.addEventListener('click', handleUserInteraction);
     
     return () => {
-      newStage.dispose();
+      console.log('Cleanup called');
       document.removeEventListener('click', handleUserInteraction);
     };
   }, []);
