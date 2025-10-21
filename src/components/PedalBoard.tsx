@@ -94,15 +94,15 @@ export const PedalBoard: React.FC<PedalBoardProps> = ({
       {/* Pedals container */}
       <div className="flex flex-wrap gap-4 justify-center items-center min-h-[250px]"> {/* gap-6 -> gap-4, min-h-[300px] -> min-h-[250px] */}
         {pedals.length === 0 ? (
-          <div className="text-gray-500 text-center">
-            <p className="mb-4">No pedals on the board</p>
+          <div className="flex flex-col items-center justify-center">
+            <p className="mb-4 text-gray-500 text-center">No pedals on the board</p>
             {onAddPedal && (
               <button
                 onClick={onAddPedal}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2 mx-auto"
+                className="w-32 h-48 border-2 border-dashed border-gray-600 rounded-lg hover:border-gray-400 transition-colors flex flex-col items-center justify-center text-gray-400 hover:text-gray-200"
               >
-                <Plus size={20} />
-                Add Pedal
+                <Plus size={32} />
+                <span className="mt-2">Add Pedal</span>
               </button>
             )}
           </div>

@@ -33,26 +33,7 @@ function App() {
     stageRef.current = newStage;
     boardRef.current = newBoard;
     
-    // Add some default pedals
-    const overdrive = new Overdrive(newStage.getContext());
-    const delay = new Delay(newStage.getContext());
-    const reverb = new Reverb(newStage.getContext());
-    const volume = new Volume(newStage.getContext());
-    
-    // Add pedals to board
-    newBoard.addPedals([overdrive, delay, reverb, volume]);
-    
-    // Configure default settings
-    overdrive.setDrive(2);
-    overdrive.setTone(5);
-    overdrive.setLevel(6);
-    
-    delay.setDelayTimer(3);
-    delay.setFeedbackGain(4);
-    delay.setLevel(7);
-    
-    reverb.setLevel(3);
-    volume.setLevel(10);
+    // Start with empty pedalboard - users can add pedals as needed
     
     // Set board on stage
     newStage.setBoard(newBoard);
