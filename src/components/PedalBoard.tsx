@@ -12,12 +12,14 @@ import { Plus, X, GripVertical } from 'lucide-react';
 interface PedalBoardProps {
   board: Board;
   onAddPedal?: () => void;
+  inputType?: 'file' | 'live';
   className?: string;
 }
 
 export const PedalBoard: React.FC<PedalBoardProps> = ({
   board,
   onAddPedal,
+  inputType = 'file',
   className
 }) => {
   const [pedals, setPedals] = useState<Box[]>(board.getPedals());
@@ -151,8 +153,19 @@ export const PedalBoard: React.FC<PedalBoardProps> = ({
       {/* Input/Output jacks */}
       <div className="flex justify-between mt-4 px-4"> {/* mt-8 -> mt-4, px-8 -> px-4 */}
         <div className="flex items-center gap-2">
-          <div className="w-6 h-6 rounded-full bg-gray-700 border-2 border-gray-600" /> {/* w-8 h-8 -> w-6 h-6 */}
-          <span className="text-gray-400 text-xs uppercase">Input</span> {/* text-sm -> text-xs */}
+          <div className={clsx(
+            "w-6 h-6 rounded-full border-2",
+            inputType === 'live' ? 'bg-red-600 border-red-500' : 'bg-gray-700 border-gray-600'
+          )} />
+          <div className="flex flex-col">
+            <span className="text-gray-400 text-xs uppercase">Input</span>
+            <span className={clsx(
+              "text-xs font-medium",
+              inputType === 'live' ? 'text-red-400' : 'text-blue-400'
+            )}>
+              {inputType === 'live' ? 'Live' : 'File'}
+            </span>
+          </div>
         </div>
         <div className="flex items-center gap-2">
           <span className="text-gray-400 text-xs uppercase">Output</span> {/* text-sm -> text-xs */}

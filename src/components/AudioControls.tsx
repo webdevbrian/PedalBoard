@@ -9,15 +9,18 @@ import { Stage } from '../core/Stage';
 
 interface AudioControlsProps {
   stage: Stage;
+  inputType?: 'file' | 'live';
+  onInputTypeChange?: (type: 'file' | 'live') => void;
   className?: string;
 }
 
 export const AudioControls: React.FC<AudioControlsProps> = ({
   stage,
+  inputType = 'file',
+  onInputTypeChange,
   className
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [inputType, setInputType] = useState<'file' | 'live'>('file');
   const [volume, setVolume] = useState(stage.getVolume());
   const [isMuted, setIsMuted] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -36,6 +39,7 @@ export const AudioControls: React.FC<AudioControlsProps> = ({
         try {
           await stage.startLiveInput();
           setIsPlaying(true);
+          onInputTypeChange?.('live'); // Ensure input type is set to live
         } catch (error) {
           console.error('Failed to start live input:', error);
           alert('Failed to access microphone. Please check permissions.');
@@ -50,6 +54,7 @@ export const AudioControls: React.FC<AudioControlsProps> = ({
       try {
         await stage.playFile(file);
         setIsPlaying(true);
+        onInputTypeChange?.('file'); // Switch to file input when uploading file
       } catch (error) {
         console.error('Failed to load audio file:', error);
         alert('Failed to load audio file. Please try another file.');
@@ -81,7 +86,7 @@ export const AudioControls: React.FC<AudioControlsProps> = ({
       stage.stop();
       setIsPlaying(false);
     }
-    setInputType(type);
+    onInputTypeChange?.(type);
   };
 
   return (
@@ -201,6 +206,7 @@ export const AudioControls: React.FC<AudioControlsProps> = ({
                 try {
                   await stage.play(`/audio/samples/sample${index + 1}.mp3`);
                   setIsPlaying(true);
+                  onInputTypeChange?.('file'); // Switch to file input when playing sample
                 } catch (error) {
                   console.error('Failed to load sample:', error);
                 }

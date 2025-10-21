@@ -16,6 +16,7 @@ function App() {
   const [stage, setStage] = useState<Stage | null>(null);
   const [board, setBoard] = useState<Board | null>(null);
   const [showPedalMenu, setShowPedalMenu] = useState(false);
+  const [inputType, setInputType] = useState<'file' | 'live'>('file');
 
   useEffect(() => {
     // Only initialize once
@@ -163,13 +164,18 @@ function App() {
       <div className="container mx-auto px-4 py-8">
         <div className="flex gap-4">
           <div className="w-80 space-y-4">
-            <AudioControls stage={stage} />
+            <AudioControls 
+              stage={stage} 
+              inputType={inputType}
+              onInputTypeChange={setInputType}
+            />
             
           </div>
           
           <PedalBoard 
             board={board} 
             onAddPedal={() => setShowPedalMenu(true)}
+            inputType={inputType}
             className="flex-1" 
           />
         </div>
