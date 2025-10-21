@@ -7,7 +7,7 @@ import { Stage, Board, Overdrive, Delay, Reverb, Volume, Cabinet } from '../src'
 import { PedalBoard } from '../src/components/PedalBoard';
 import { AudioControls } from '../src/components/AudioControls';
 import { Box } from '../src/pedals/Box';
-import { Save, FolderOpen } from 'lucide-react';
+import { Save, FolderOpen, Github } from 'lucide-react';
 
 function App() {
   const initRef = useRef(false);
@@ -126,10 +126,21 @@ function App() {
       {/* Header */}
       <header className="bg-black/50 backdrop-blur-sm border-b border-gray-800">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-white">
-            Pedalboard.js
-            <span className="text-sm text-gray-400 ml-2">v2.0</span>
-          </h1>
+          <div>
+            <h1 className="text-2xl font-bold text-white">
+              Pedalboard.js
+              <span className="text-sm text-gray-400 ml-2">v2.0</span>
+            </h1>
+            <a 
+              href="https://github.com/webdevbrian/pedalboard.js" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-sm text-gray-400 hover:text-white transition-colors mt-1"
+            >
+              <Github size={14} />
+              View on GitHub
+            </a>
+          </div>
           <div className="flex gap-2">
             <button
               onClick={savePreset}

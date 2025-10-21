@@ -26,6 +26,11 @@ export const AudioControls: React.FC<AudioControlsProps> = ({
     if (isPlaying) {
       stage.stop();
       setIsPlaying(false);
+      
+      // Clear file input so user can select files again
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
     } else {
       if (inputType === 'live') {
         try {

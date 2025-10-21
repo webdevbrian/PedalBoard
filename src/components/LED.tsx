@@ -25,19 +25,19 @@ export const LED: React.FC<LEDProps> = ({
   };
 
   const colorClasses = {
-    red: 'bg-red-600 shadow-red-500/50',
-    green: 'bg-green-600 shadow-green-500/50',
-    blue: 'bg-blue-600 shadow-blue-500/50',
-    yellow: 'bg-yellow-500 shadow-yellow-400/50',
-    white: 'bg-white shadow-white/50'
+    red: 'bg-gray-600 shadow-gray-500/30',
+    green: 'bg-gray-600 shadow-gray-500/30',
+    blue: 'bg-gray-600 shadow-gray-500/30',
+    yellow: 'bg-gray-600 shadow-gray-500/30',
+    white: 'bg-gray-600 shadow-gray-500/30'
   };
 
   const activeColorClasses = {
-    red: 'bg-red-500 shadow-red-400 animate-pulse',
-    green: 'bg-green-500 shadow-green-400 animate-pulse',
-    blue: 'bg-blue-500 shadow-blue-400 animate-pulse',
-    yellow: 'bg-yellow-400 shadow-yellow-300 animate-pulse',
-    white: 'bg-white shadow-white animate-pulse'
+    red: 'bg-red-400 shadow-red-300',
+    green: 'bg-green-400 shadow-green-300',
+    blue: 'bg-blue-400 shadow-blue-300',
+    yellow: 'bg-yellow-300 shadow-yellow-200',
+    white: 'bg-white shadow-white'
   };
 
   return (
@@ -50,7 +50,7 @@ export const LED: React.FC<LEDProps> = ({
         className
       )}
       style={{
-        boxShadow: active ? `0 0 20px currentColor` : undefined
+        boxShadow: active ? `0 0 12px rgba(248, 113, 113, 0.8), 0 0 24px rgba(248, 113, 113, 0.4)` : undefined
       }}
     />
   );
