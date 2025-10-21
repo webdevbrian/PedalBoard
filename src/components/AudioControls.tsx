@@ -190,7 +190,10 @@ export const AudioControls: React.FC<AudioControlsProps> = ({
           step="0.01"
           value={isMuted ? 0 : volume}
           onChange={handleVolumeChange}
-          className="w-full"
+          className="w-full volume-slider"
+          style={{
+            background: `linear-gradient(to right, #3b82f6 0%, #3b82f6 ${(isMuted ? 0 : volume) * 100}%, #4b5563 ${(isMuted ? 0 : volume) * 100}%, #4b5563 100%)`
+          }}
         />
         <div className="text-center text-gray-400 text-sm">
           {Math.round((isMuted ? 0 : volume) * 100)}%

@@ -85,3 +85,35 @@ input[type="range"]::-moz-range-thumb {
       rgba(255, 255, 255, 0.03) 4px
     );
 }
+
+/* Volume slider specific styling */
+.volume-slider {
+  @apply h-3 rounded-lg;
+  background: #4b5563;
+}
+
+.volume-slider::-webkit-slider-track {
+  @apply h-3 bg-gray-600 rounded-lg;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.volume-slider::-webkit-slider-thumb {
+  @apply w-5 h-5 bg-blue-500 rounded-full cursor-pointer border-2 border-blue-600;
+  margin-top: -4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+}
+
+.volume-slider::-webkit-slider-thumb:hover {
+  @apply bg-blue-400 border-blue-500 scale-110;
+}
+
+.volume-slider::-moz-range-track {
+  @apply h-3 bg-gray-600 rounded-lg;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.volume-slider::-moz-range-thumb {
+  @apply w-5 h-5 bg-blue-500 rounded-full cursor-pointer border-2 border-blue-600;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
