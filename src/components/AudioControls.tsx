@@ -11,6 +11,7 @@ interface AudioControlsProps {
   stage: Stage;
   inputType?: 'file' | 'live';
   onInputTypeChange?: (type: 'file' | 'live') => void;
+  hideTitle?: boolean;
   className?: string;
 }
 
@@ -18,6 +19,7 @@ export const AudioControls: React.FC<AudioControlsProps> = ({
   stage,
   inputType = 'file',
   onInputTypeChange,
+  hideTitle = false,
   className
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -94,7 +96,7 @@ export const AudioControls: React.FC<AudioControlsProps> = ({
       'bg-gray-800 rounded-lg p-6 shadow-xl',
       className
     )}>
-      <h3 className="text-white font-bold text-lg mb-4">Audio Controls</h3>
+      {!hideTitle && <h3 className="text-white font-bold text-lg mb-4">Audio Controls</h3>}
       
       {/* Input Type Selection */}
       <div className="flex gap-2 mb-4">

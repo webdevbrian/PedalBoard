@@ -7,7 +7,7 @@ import { Stage, Board, Overdrive, Delay, Reverb, Volume, Cabinet } from '../src'
 import { PedalBoard } from '../src/components/PedalBoard';
 import { AudioControls } from '../src/components/AudioControls';
 import { Box } from '../src/pedals/Box';
-import { Save, FolderOpen, Github } from 'lucide-react';
+import { Save, FolderOpen, Github, ChevronLeft, ChevronRight } from 'lucide-react';
 
 function App() {
   const initRef = useRef(false);
@@ -17,6 +17,7 @@ function App() {
   const [board, setBoard] = useState<Board | null>(null);
   const [showPedalMenu, setShowPedalMenu] = useState(false);
   const [inputType, setInputType] = useState<'file' | 'live'>('file');
+  const [audioControlsCollapsed, setAudioControlsCollapsed] = useState(false);
 
   useEffect(() => {
     // Only initialize once
@@ -163,13 +164,38 @@ function App() {
       {/* Main Content */}
       <div className="container mx-auto px-4 py-8">
         <div className="flex gap-4">
-          <div className="w-80 space-y-4">
-            <AudioControls 
-              stage={stage} 
-              inputType={inputType}
-              onInputTypeChange={setInputType}
-            />
-            
+          {/* Collapsible Audio Controls */}
+          <div className={`transition-all duration-300 ${audioControlsCollapsed ? 'w-12' : 'w-80'}`}>
+            {audioControlsCollapsed ? (
+              /* Collapsed state - just toggle button */
+              <button
+                onClick={() => setAudioControlsCollapsed(false)}
+                className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-700 transition-colors"
+                title="Expand Audio Controls"
+              >
+                <ChevronRight size={20} />
+              </button>
+            ) : (
+              /* Expanded state - full controls */
+              <div className="space-y-4">
+                <div className="flex justify-between items-center">
+                  <h3 className="text-white font-bold text-lg">Audio Controls</h3>
+                  <button
+                    onClick={() => setAudioControlsCollapsed(true)}
+                    className="w-8 h-8 bg-gray-700 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-600 transition-colors"
+                    title="Collapse Audio Controls"
+                  >
+                    <ChevronLeft size={16} />
+                  </button>
+                </div>
+                <AudioControls 
+                  stage={stage} 
+                  inputType={inputType}
+                  onInputTypeChange={setInputType}
+                  hideTitle={true}
+                />
+              </div>
+            )}
           </div>
           
           <PedalBoard 
