@@ -1,1 +1,0 @@
-{"version":3,"file":"VolumeModel.d.ts","sourceRoot":"","sources":["../../../../src/pedals/volume/VolumeModel.ts"],"names":[],"mappings":"AAAA;;GAEG;AAEH,OAAO,EAAE,QAAQ,EAAE,MAAM,aAAa,CAAC;AAEvC,qBAAa,WAAY,SAAQ,QAAQ;gBAC3B,OAAO,EAAE,YAAY;IAQjC;;OAEG;IACH,SAAS,CAAC,KAAK,EAAE,MAAM,GAAG,IAAI;IAI9B;;OAEG;IACH,SAAS,IAAI,MAAM;CAGpB"}

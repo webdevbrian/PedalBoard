@@ -1,1 +1,0 @@
-{"version":3,"file":"AudioControls.d.ts","sourceRoot":"","sources":["../../../src/components/AudioControls.tsx"],"names":[],"mappings":"AAAA;;GAEG;AAEH,OAAO,KAA2B,MAAM,OAAO,CAAC;AAGhD,OAAO,EAAE,KAAK,EAAE,MAAM,eAAe,CAAC;AAEtC,UAAU,kBAAkB;IAC1B,KAAK,EAAE,KAAK,CAAC;IACb,SAAS,CAAC,EAAE,MAAM,CAAC;CACpB;AAED,eAAO,MAAM,aAAa,EAAE,KAAK,CAAC,EAAE,CAAC,kBAAkB,CAqMtD,CAAC"}

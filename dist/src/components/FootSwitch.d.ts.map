@@ -1,1 +1,0 @@
-{"version":3,"file":"FootSwitch.d.ts","sourceRoot":"","sources":["../../../src/components/FootSwitch.tsx"],"names":[],"mappings":"AAAA;;GAEG;AAEH,OAAO,KAAK,MAAM,OAAO,CAAC;AAG1B,UAAU,eAAe;IACvB,MAAM,EAAE,OAAO,CAAC;IAChB,QAAQ,EAAE,MAAM,IAAI,CAAC;IACrB,SAAS,CAAC,EAAE,OAAO,CAAC;IACpB,SAAS,CAAC,EAAE,MAAM,CAAC;CACpB;AAED,eAAO,MAAM,UAAU,EAAE,KAAK,CAAC,EAAE,CAAC,eAAe,CA+ChD,CAAC"}
