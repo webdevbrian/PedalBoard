@@ -62,7 +62,10 @@ await stage.play('/audio/sample.mp3');
 # Build the library
 npm run build:lib
 
-# Build the example app
+# Build the example app only
+npm run build:app
+
+# Build both library and example app
 npm run build
 ```
 
@@ -94,7 +97,7 @@ function App() {
 
 ## 📚 Next Steps
 
-- Read the full [README](README-NEW.md)
+- Read the full [README](README.md)
 - Check the [Migration Guide](MIGRATION.md) if coming from v1
 - Explore the [example app source](example-app/)
 - Create custom pedals
@@ -118,9 +121,10 @@ Click anywhere on the page first. Browsers require user interaction to start aud
 
 ```bash
 npm run dev          # Start development server
-npm run build        # Build for production
+npm run build        # Build library and example app
 npm run build:lib    # Build library only
-npm run preview      # Preview production build
+npm run build:app    # Build example app only
+npm run preview      # Build and preview the example app
 npm run lint         # Run ESLint
 npm run type-check   # Run TypeScript type checking
 ```

@@ -147,12 +147,39 @@ npm run dev
 ### Building
 
 ```bash
-# Build the library
+# Build the library (outputs to dist/)
 npm run build:lib
 
-# Build for production
+# Build the example app (outputs to dist-app/)
+npm run build:app
+
+# Build both library and example app
 npm run build
 ```
+
+### Preview
+
+```bash
+# Build and preview the example app production build at http://localhost:4173
+npm run preview
+```
+
+### NPM Scripts
+
+- **dev**: Start the Vite dev server for the example app at http://localhost:3000
+- **build**: Build both the library and the example app
+- **build:lib**: Clean `dist/` and build the library with `tsup` into `dist/`
+- **build:app**: Build the example app with Vite into `dist-app/`
+- **preview**: Build the app and serve `dist-app/` with Vite Preview (port 4173 by default)
+- **clean**: Remove `dist/` and `dist-app/`
+- **test**: Run unit tests with Vitest
+- **lint**: Lint the codebase with ESLint
+- **type-check**: Run TypeScript type checking only
+
+### Output Directories
+
+- **Library artifacts**: `dist/`
+- **Example app build**: `dist-app/`
 
 ### Testing
 

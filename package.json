@@ -14,14 +14,14 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
-    "build:lib": "npm run clean && tsc && tsup",
-    "clean": "rimraf dist",
-    "preview": "vite preview",
+    "build": "npm run build:lib && npm run build:app",
+    "build:lib": "npm run clean && tsup",
+    "build:app": "vite build --mode app",
+    "clean": "rimraf dist dist-app",
+    "preview": "npm run build:app && vite preview --mode app --outDir dist-app",
     "test": "vitest",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "type-check": "tsc --noEmit",
-    "example": "vite"
+    "type-check": "tsc --noEmit"
   },
   "repository": {
     "type": "git",
