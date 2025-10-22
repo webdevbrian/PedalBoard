@@ -36,6 +36,7 @@ export interface IPotValue {
   max: number;
   step?: number;
   logarithmic?: boolean;
+  options?: string[];
 }
 
 export interface ISwitchState {

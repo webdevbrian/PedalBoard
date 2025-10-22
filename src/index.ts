@@ -27,6 +27,7 @@ export { CabinetModel } from './pedals/cabinet/CabinetModel';
 export { Pot } from './controls/pots/Pot';
 export { LinearPot } from './controls/pots/LinearPot';
 export { LogPot } from './controls/pots/LogPot';
+export { SelectorPot } from './controls/pots/SelectorPot';
 export { Switch } from './controls/switches/Switch';
 export { ToggleSwitch } from './controls/switches/ToggleSwitch';
 export { MomentarySwitch } from './controls/switches/MomentarySwitch';

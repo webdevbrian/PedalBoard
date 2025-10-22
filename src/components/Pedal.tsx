@@ -146,6 +146,8 @@ export const Pedal: React.FC<PedalProps> = ({
                 onChange={(value) => handlePotChange(pot.getName(), value)}
                 label={truncateLabel(pot.getName())}
                 size={pedal.pots.length > 4 ? "tiny" : "small"}
+                step={pot.getConfig().step}
+                options={pot.getConfig().options}
               />
             </div>
           );

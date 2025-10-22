@@ -5,6 +5,7 @@
 import { Box } from '../Box';
 import { CabinetModel } from './CabinetModel';
 import { LinearPot } from '../../controls/pots/LinearPot';
+import { SelectorPot } from '../../controls/pots/SelectorPot';
 
 export class Cabinet extends Box {
   declare protected model: CabinetModel;
@@ -14,6 +15,7 @@ export class Cabinet extends Box {
   private midPot!: LinearPot;
   private treblePot!: LinearPot;
   private presencePot!: LinearPot;
+  private typePot!: SelectorPot;
 
   constructor(context: AudioContext) {
     super(context, CabinetModel);
@@ -25,6 +27,14 @@ export class Cabinet extends Box {
   protected createPots(): void {
     super.createPots();
     
+    const typeKeys = ['vintage', 'modern', 'british', 'custom'] as const;
+    const typeLabels = ['VNT', 'MOD', 'BRT', 'CUS'];
+    this.typePot = new SelectorPot(
+      (index: number) => this.model.setCabinetType(typeKeys[index as 0 | 1 | 2 | 3]),
+      'type',
+      typeLabels
+    );
+
     // Bass EQ
     this.bassPot = new LinearPot(
       (value: number) => this.model.setBass(value),
@@ -61,10 +71,9 @@ export class Cabinet extends Box {
       10
     );
     
-    // Add to pots array
-    this.pots.push(this.bassPot, this.midPot, this.treblePot, this.presencePot);
+    this.pots.push(this.typePot, this.bassPot, this.midPot, this.treblePot, this.presencePot);
     
-    // Set default values (neutral EQ)
+    this.typePot.setActualValue(0);
     this.bassPot.setActualValue(5);
     this.midPot.setActualValue(5);
     this.treblePot.setActualValue(5);

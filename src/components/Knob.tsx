@@ -13,6 +13,8 @@ interface KnobProps {
   label?: string;
   size?: 'tiny' | 'small' | 'medium' | 'large';
   className?: string;
+  step?: number;
+  options?: string[];
 }
 
 export const Knob: React.FC<KnobProps> = ({
@@ -22,7 +24,8 @@ export const Knob: React.FC<KnobProps> = ({
   onChange,
   label,
   size = 'medium',
-  className
+  className,
+  options
 }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [internalValue, setInternalValue] = useState(value);
@@ -48,11 +51,17 @@ export const Knob: React.FC<KnobProps> = ({
     const range = max - min;
     const sensitivity = 200; // pixels for full range
     const deltaValue = (deltaY / sensitivity) * range;
-    const newValue = Math.max(min, Math.min(max, startValue.current + deltaValue));
+    let newValue = Math.max(min, Math.min(max, startValue.current + deltaValue));
+
+    const snapStep = options && options.length > 0 ? 1 : undefined;
+    if (snapStep && snapStep > 0) {
+      const snapped = Math.round((newValue - min) / snapStep) * snapStep + min;
+      newValue = Math.max(min, Math.min(max, snapped));
+    }
     
     setInternalValue(newValue);
     onChange(newValue);
-  }, [isDragging, min, max, onChange]);
+  }, [isDragging, min, max, onChange, options]);
 
   const handleMouseUp = useCallback(() => {
     setIsDragging(false);
@@ -113,7 +122,9 @@ export const Knob: React.FC<KnobProps> = ({
         'text-gray-400',
         size === 'tiny' ? 'text-xs' : 'text-xs'
       )}>
-        {internalValue.toFixed(size === 'tiny' ? 0 : 1)}
+        {options && options.length > 0
+          ? (options[Math.round(Math.max(0, Math.min(options.length - 1, internalValue)))] || '').slice(0, 3).toUpperCase()
+          : internalValue.toFixed(size === 'tiny' ? 0 : 1)}
       </div>
     </div>
   );
