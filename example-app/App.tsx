@@ -182,7 +182,7 @@ function App() {
               <span className="text-sm text-gray-400 ml-2">v2.0</span>
             </h1>
             <a 
-              href="https://github.com/webdevbrian/pedalboard.js" 
+              href="https://github.com/webdevbrian/PedalBoard" 
               target="_blank" 
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1 text-sm text-gray-400 hover:text-white transition-colors mt-1"
