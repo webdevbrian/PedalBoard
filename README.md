@@ -1,5 +1,8 @@
 # Pedalboard.js v2.0
 
+<img width="1546" height="897" alt="image" src="https://github.com/user-attachments/assets/a21a223d-0564-4487-8c9a-aef53d1bc3e9" />
+
+
 A modern TypeScript library for creating guitar effects and audio processing using the Web Audio API. Complete rewrite of the original pedalboard.js with modern tooling, React components, and improved architecture.
 
 ## 🎸 Features
