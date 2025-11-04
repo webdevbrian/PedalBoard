@@ -34,8 +34,8 @@ export class OverdriveModel extends BoxModel {
     
     // Set up initial routing
     this.routeInternal();
-    
-    // Initialize with mild overdrive
+
+    // Initialize with no overdrive (will be set by pedal controls)
     this.createWSCurve(0);
   }
 

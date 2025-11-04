@@ -101,21 +101,18 @@ export class Stage extends EventEmitter {
   async play(url: string): Promise<void> {
     // Resume audio context if needed
     await this.resume();
-    
+
     // Stop current input
     this.input.stop();
     this.input.disconnect();
-    
+
     // Create new file input
     const fileInput = new FileInput(this.context, url);
     this.input = fileInput;
-    
-    // Wait for file to load
-    await new Promise<void>((resolve, reject) => {
-      fileInput.once('loaded', () => resolve());
-      fileInput.once('error', (error) => reject(error));
-    });
-    
+
+    // Initialize and wait for file to load
+    await fileInput.initialize();
+
     // Route and play
     this.route();
     fileInput.play();
@@ -148,18 +145,18 @@ export class Stage extends EventEmitter {
   async startLiveInput(): Promise<void> {
     // Resume audio context if needed
     await this.resume();
-    
+
     // Stop current input
     this.input.stop();
     this.input.disconnect();
-    
-    // Create stream input
-    const streamInput = new StreamInput(this.context, false);
+
+    // Create stream input (autoStart = false, we'll call initialize manually)
+    const streamInput = new StreamInput(this.context, true);
     this.input = streamInput;
-    
-    // Start stream
-    await streamInput.startStream();
-    
+
+    // Initialize (starts the stream)
+    await streamInput.initialize();
+
     // Route audio
     this.route();
   }

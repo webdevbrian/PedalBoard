@@ -27,6 +27,10 @@ export class Board extends Connectable {
    * Adds a single pedal to the board
    */
   addPedal(pedal: Box): void {
+    // Ensure pedal is initialized before adding
+    if (typeof pedal.initialize === 'function') {
+      pedal.initialize();
+    }
     this.pedals.push(pedal);
     this.routeInternal();
     this.emit('pedalAdded', pedal);
@@ -36,6 +40,10 @@ export class Board extends Connectable {
    * Adds a pedal at a specific position
    */
   addPedalAt(pedal: Box, index: number): void {
+    // Ensure pedal is initialized before adding
+    if (typeof pedal.initialize === 'function') {
+      pedal.initialize();
+    }
     this.pedals.splice(index, 0, pedal);
     this.routeInternal();
     this.emit('pedalAdded', pedal);
@@ -220,18 +228,23 @@ export class Board extends Connectable {
       }
 
       const pedal = pedalFactory(pedalData.name);
-      
-      if (pedal) {
-        // Add pedal to board first
-        this.addPedal(pedal);
 
-        // Restore pot values
+      if (pedal) {
+        // Initialize pedal first (sets default values)
+        if (typeof pedal.initialize === 'function') {
+          pedal.initialize();
+        }
+
+        // Restore pot values (overrides defaults from initialize)
         pedalData.pots?.forEach((potData: any) => {
           const pot = pedal.pots.find((p: any) => p.getName() === potData.name);
           if (pot) {
-            pot.setValue(potData.value);
+            pot.setActualValue(potData.value);
           }
         });
+
+        // Add pedal to board (skip initialization since we already did it)
+        this.pedals.push(pedal);
 
         // Restore bypass state
         if (pedalData.bypassed !== pedal.isBypassed()) {

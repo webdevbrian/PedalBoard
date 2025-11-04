@@ -12,18 +12,16 @@ export class ReverbModel extends BoxModel {
 
   constructor(context: AudioContext) {
     super(context);
-    
+
     // Create convolver for reverb
     this.convolver = this.context.createConvolver();
-    
-    // Create wet/dry mix
+
+    // Create wet/dry mix (default values set by pedal controls)
     this.wetGain = this.context.createGain();
-    this.wetGain.gain.value = 0.3; // Default 30% wet
-    
+
     this.dryGain = this.context.createGain();
-    this.dryGain.gain.value = 0.7; // Default 70% dry
-    
-    // Generate default impulse response
+
+    // Generate a neutral impulse response (will be set properly during initialization)
     this.generateImpulse(2, 2, 0.5);
     
     // Connect wet path through convolver

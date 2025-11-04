@@ -25,13 +25,18 @@ export abstract class Box extends Connectable {
 
   constructor(context: AudioContext, ModelClass: typeof BoxModel = BoxModel) {
     super(context, ModelClass as any);
-    
-    // Apply initial bypass state after construction
-    setTimeout(() => {
-      if (this.bypassSwitch && !this.bypassSwitch.getState()) {
-        this.model.bypass();
-      }
-    }, 0);
+  }
+
+  /**
+   * Initializes the pedal with default values and applies initial bypass state
+   */
+  initialize(): void {
+    super.initialize();
+
+    // Apply initial bypass state after all components are initialized
+    if (this.bypassSwitch && !this.bypassSwitch.getState()) {
+      this.model.bypass();
+    }
   }
 
   /**
@@ -40,17 +45,17 @@ export abstract class Box extends Connectable {
   protected createPots(): void {
     // Initialize pots array
     this.pots = [];
-    
-    // Create volume pot that controls the level gain
+
+    // Create volume pot that controls the level gain (default to full volume)
     this.volumePot = new LinearPot(
       (value: number) => this.model.setLevel(value),
       'volume',
       1,
       0,
-      10
+      10,
+      10 // default value
     );
-    this.volumePot.setValue(10); // Default to full volume
-    
+
     this.pots = [this.volumePot];
   }
 
@@ -61,16 +66,16 @@ export abstract class Box extends Connectable {
     // Initialize arrays
     this.switches = [];
     this.leds = [];
-    
+
     // Create bypass switch (default to bypassed/off so pedal starts disabled)
     this.bypassSwitch = new ToggleSwitch('bypass', false);
-    
+
     // Create LED that follows bypass switch
     this.led = new Led(this.bypassSwitch);
-    
+
     this.leds = [this.led];
     this.switches = [this.bypassSwitch];
-    
+
     // Handle bypass switching
     this.bypassSwitch.on('change', (state: boolean) => {
       if (state) {
@@ -78,7 +83,7 @@ export abstract class Box extends Connectable {
         this.model.enable();
         this.led.setState(true);
       } else {
-        // Bypassed - route around effects  
+        // Bypassed - route around effects
         this.model.bypass();
         this.led.setState(false);
       }
@@ -94,17 +99,25 @@ export abstract class Box extends Connectable {
   }
 
   /**
+   * Initialize child components in the correct order
+   */
+  protected initializeChildComponents(): void {
+    // Initialize pots first (sets default values via handlers)
+    this.pots.forEach(pot => pot.initialize());
+
+    // Initialize LEDs (syncs with switch states)
+    this.leds.forEach(led => led.initialize());
+  }
+
+  /**
    * Connects to another pedal and sets up bypass nodes
    */
   connect(destination: IConnectable): void {
     super.connect(destination);
-    
-    // After routing, apply the current bypass state
-    if (this.bypassSwitch) {
-      const isBypassed = !this.bypassSwitch.getState(); // false = bypassed
-      if (isBypassed) {
-        this.model.bypass();
-      }
+
+    // Re-apply bypass state after routing (connect causes routeInternal which ignores bypass)
+    if (this.bypassSwitch && !this.bypassSwitch.getState()) {
+      this.model.bypass();
     }
   }
 

@@ -19,31 +19,29 @@ export class Overdrive extends Box {
    */
   protected createPots(): void {
     super.createPots();
-    
-    // Drive pot (distortion amount) - pots[1]
+
+    // Drive pot (distortion amount, default moderate drive) - pots[1]
     const drivePot = new LogPot(
       (value: number) => this.model.setDrive(value),
       'drive',
       10,
       0,
-      10
+      10,
+      4 // default moderate drive
     );
-    
-    // Tone pot (brightness) - pots[2]
+
+    // Tone pot (brightness, default bright) - pots[2]
     const tonePot = new LogPot(
       (value: number) => this.model.setTone(value),
       'tone',
       10,
       0,
-      10
+      10,
+      7 // default bright tone
     );
-    
+
     // Add to pots array (volumePot is pots[0])
     this.pots.push(drivePot, tonePot);
-    
-    // Set default values (more noticeable settings)
-    drivePot.setActualValue(4);
-    tonePot.setActualValue(7);
   }
 
   /**

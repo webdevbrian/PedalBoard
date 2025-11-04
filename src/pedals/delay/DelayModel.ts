@@ -13,21 +13,17 @@ export class DelayModel extends BoxModel {
 
   constructor(context: AudioContext) {
     super(context);
-    
-    // Create delay node
+
+    // Create delay node (default values set by pedal controls)
     this.delay = this.context.createDelay(this.maxDelayTime);
-    this.delay.delayTime.value = 0.3; // Default 300ms delay
-    
+
     // Create feedback loop
     this.feedback = this.context.createGain();
-    this.feedback.gain.value = 0.4; // Default 40% feedback
-    
+
     // Create wet/dry mix
     this.wetGain = this.context.createGain();
-    this.wetGain.gain.value = 0.5;
-    
+
     this.dryGain = this.context.createGain();
-    this.dryGain.gain.value = 1;
     
     // Connect feedback loop: delay -> feedback -> delay
     this.delay.connect(this.feedback);

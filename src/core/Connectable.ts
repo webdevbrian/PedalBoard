@@ -21,11 +21,31 @@ export abstract class Connectable extends EventEmitter implements IConnectable {
   }
 
   /**
+   * Initializes the component and all child components with their default values.
+   * Call this after construction is complete.
+   */
+  initialize(): void {
+    this.initializeChildComponents();
+  }
+
+  /**
    * Creates child components such as pots and switches.
    * Override in subclasses
    */
   protected createChildComponents(): void {
     this.components = [];
+  }
+
+  /**
+   * Initializes all child components with their default values.
+   * Override in subclasses if custom initialization order is needed.
+   */
+  protected initializeChildComponents(): void {
+    this.components.forEach(component => {
+      if (component.initialize && typeof component.initialize === 'function') {
+        component.initialize();
+      }
+    });
   }
 
   /**

@@ -17,11 +17,8 @@ export class Volume extends Box {
    * Creates the pots for this pedal
    */
   protected createPots(): void {
-    // Volume pedal only has the main volume pot
+    // Volume pedal only has the main volume pot (defaults to 10 from Box)
     super.createPots();
-    
-    // Set default to full volume
-    this.volumePot.setActualValue(10);
   }
 
   /**

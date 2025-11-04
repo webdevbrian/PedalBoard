@@ -12,13 +12,18 @@ export class Led extends EventEmitter {
   constructor(switchControl: Switch) {
     super();
     this.switch = switchControl;
-    
+
     // Follow switch state
     this.switch.on('change', (state: boolean) => {
       this.setState(state);
     });
-    
-    // Set initial state
+  }
+
+  /**
+   * Initializes the LED with the switch's current state
+   * Called after construction is complete
+   */
+  initialize(): void {
     this.setState(this.switch.getState());
   }
 

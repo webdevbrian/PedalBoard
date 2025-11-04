@@ -14,34 +14,26 @@ export class CabinetModel extends BoxModel {
 
   constructor(context: AudioContext) {
     super(context);
-    
-    // Create EQ filters to simulate cabinet response
+
+    // Create EQ filters to simulate cabinet response (values set by pedal controls)
     this.highPass = this.context.createBiquadFilter();
     this.highPass.type = 'highpass';
-    this.highPass.frequency.value = 80; // Remove sub-bass
     this.highPass.Q.value = 0.7;
-    
+
     this.lowShelf = this.context.createBiquadFilter();
     this.lowShelf.type = 'lowshelf';
-    this.lowShelf.frequency.value = 200;
-    this.lowShelf.gain.value = -2;
-    
+
     this.midPeak = this.context.createBiquadFilter();
     this.midPeak.type = 'peaking';
-    this.midPeak.frequency.value = 800;
     this.midPeak.Q.value = 0.5;
-    this.midPeak.gain.value = 3;
-    
+
     this.highShelf = this.context.createBiquadFilter();
     this.highShelf.type = 'highshelf';
-    this.highShelf.frequency.value = 3000;
-    this.highShelf.gain.value = -4;
-    
+
     this.lowPass = this.context.createBiquadFilter();
     this.lowPass.type = 'lowpass';
-    this.lowPass.frequency.value = 5000; // Cabinet roll-off
     this.lowPass.Q.value = 0.7;
-    
+
     // Set up effects chain
     this.effects = [
       this.highPass,
@@ -51,15 +43,12 @@ export class CabinetModel extends BoxModel {
       this.lowPass,
       this.level
     ];
-    
+
     // Build initial chain for internal routing
     this.chain = [this.inputBuffer, ...this.effects, this.outputBuffer];
-    
+
     // Set up initial routing
     this.routeInternal();
-    
-    // Apply default vintage cabinet settings
-    this.setCabinetType('vintage');
   }
 
   /**

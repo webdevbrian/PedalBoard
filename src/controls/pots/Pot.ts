@@ -14,20 +14,23 @@ export abstract class Pot extends EventEmitter {
   protected name: string;
   protected handler?: (value: number) => void;
   protected audioParam?: AudioParam;
+  protected defaultValue?: number;
 
   constructor(
     handlerOrParam: ((value: number) => void) | AudioParam,
     name: string,
     multiplier: number = 1,
     min: number = 0,
-    max?: number
+    max?: number,
+    defaultValue?: number
   ) {
     super();
     this.name = name;
     this.min = min;
     this.max = max ?? min + multiplier;
     this.step = (this.max - this.min) / 100; // 100 steps by default
-    
+    this.defaultValue = defaultValue;
+
     // Check if handler is an AudioParam or a function
     if (handlerOrParam instanceof AudioParam) {
       this.audioParam = handlerOrParam;
@@ -36,6 +39,16 @@ export abstract class Pot extends EventEmitter {
       };
     } else {
       this.handler = handlerOrParam;
+    }
+  }
+
+  /**
+   * Initializes the pot with its default value (if provided)
+   * Called after construction is complete
+   */
+  initialize(): void {
+    if (this.defaultValue !== undefined) {
+      this.setActualValue(this.defaultValue);
     }
   }
 

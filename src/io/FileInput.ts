@@ -10,10 +10,19 @@ export class FileInput extends Input {
   private startTime: number = 0;
   private pauseTime: number = 0;
 
+  private initialUrl?: string;
+
   constructor(context: AudioContext, url?: string) {
     super(context);
-    if (url) {
-      this.loadFile(url);
+    this.initialUrl = url;
+  }
+
+  /**
+   * Initializes the input by loading the initial URL if provided
+   */
+  async initialize(): Promise<void> {
+    if (this.initialUrl) {
+      await this.loadFile(this.initialUrl);
     }
   }
 

@@ -19,41 +19,39 @@ export class Reverb extends Box {
    */
   protected createPots(): void {
     super.createPots();
-    
-    // Room size pot - pots[1]
+
+    // Room size pot (default medium room) - pots[1]
     const roomSizePot = new LinearPot(
       (value: number) => this.model.setRoomSize(value),
       'room',
       10,
       0,
-      10
+      10,
+      5 // default medium room
     );
-    
-    // Mix pot (dry/wet balance) - pots[2]
+
+    // Mix pot (dry/wet balance, default 30%) - pots[2]
     const mixPot = new LinearPot(
       (value: number) => this.model.setMix(value),
       'mix',
       1,
       0,
-      1
+      1,
+      0.3 // default 30% mix
     );
-    
-    // Brightness pot - pots[3]
+
+    // Brightness pot (default medium brightness) - pots[3]
     const brightnessPot = new LinearPot(
       (value: number) => this.model.setBrightness(value),
       'tone',
       10,
       0,
-      10
+      10,
+      5 // default medium brightness
     );
-    
+
     // Add to pots array (volumePot is pots[0])
     this.pots.push(roomSizePot, mixPot, brightnessPot);
-    
-    // Set default values
-    roomSizePot.setActualValue(5); // Medium room
-    mixPot.setActualValue(0.3); // 30% mix
-    brightnessPot.setActualValue(5); // Medium brightness
   }
 
   /**

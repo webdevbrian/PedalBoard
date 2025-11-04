@@ -11,9 +11,13 @@ export class StreamInput extends Input {
   private inputGain?: GainNode;
   private constraints: MediaStreamConstraints;
 
+  private autoStart: boolean;
+
   constructor(context: AudioContext, autoStart: boolean = true) {
     super(context);
-    
+
+    this.autoStart = autoStart;
+
     // Default constraints for audio input
     this.constraints = {
       audio: {
@@ -23,9 +27,14 @@ export class StreamInput extends Input {
       },
       video: false
     };
+  }
 
-    if (autoStart) {
-      this.startStream();
+  /**
+   * Initializes the input by starting the stream if autoStart was enabled
+   */
+  async initialize(): Promise<void> {
+    if (this.autoStart) {
+      await this.startStream();
     }
   }
 

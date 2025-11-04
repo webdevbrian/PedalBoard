@@ -7,9 +7,10 @@ export class SelectorPot extends Pot {
   constructor(
     handler: (index: number) => void,
     name: string,
-    options: string[]
+    options: string[],
+    defaultValue?: number
   ) {
-    super(handler, name, options.length - 1, 0, options.length - 1);
+    super(handler, name, options.length - 1, 0, options.length - 1, defaultValue);
     this.options = options;
     this.step = 1;
   }

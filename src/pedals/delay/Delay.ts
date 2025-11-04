@@ -19,41 +19,39 @@ export class Delay extends Box {
    */
   protected createPots(): void {
     super.createPots();
-    
-    // Delay time pot (0-2 seconds) - pots[1]
+
+    // Delay time pot (0-2 seconds, default 300ms) - pots[1]
     const timePot = new LinearPot(
       (value: number) => this.model.setDelayTime(value),
       'time',
       2,
       0,
-      2
+      2,
+      0.3 // default 300ms
     );
-    
-    // Feedback pot (0-95% feedback) - pots[2]
+
+    // Feedback pot (0-95% feedback, default 40%) - pots[2]
     const feedbackPot = new LinearPot(
       (value: number) => this.model.setFeedback(value),
       'feedback',
       0.95,
       0,
-      0.95
+      0.95,
+      0.4 // default 40%
     );
-    
-    // Mix pot (dry/wet balance) - pots[3]
+
+    // Mix pot (dry/wet balance, default 50%) - pots[3]
     const mixPot = new LinearPot(
       (value: number) => this.model.setMix(value),
       'mix',
       1,
       0,
-      1
+      1,
+      0.5 // default 50%
     );
-    
+
     // Add to pots array (volumePot is pots[0])
     this.pots.push(timePot, feedbackPot, mixPot);
-    
-    // Set default values
-    timePot.setActualValue(0.3); // 300ms
-    feedbackPot.setActualValue(0.4); // 40% feedback
-    mixPot.setActualValue(0.5); // 50% mix
   }
 
   /**
